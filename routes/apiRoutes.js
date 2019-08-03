@@ -6,7 +6,7 @@ const axios = require("axios");
 
 module.exports = function(app) {
   // Load index page
-  app.get("/api/:search", isAuthenticated, function(req, res) {
+  app.get("/api/:search", function(req, res) {
     let jobSearch = req.params.search;
 
     // *********************************** Testing API function ****************************************
@@ -34,17 +34,17 @@ module.exports = function(app) {
           }
         });
 
-        for (var j in counts) {
-          result.push([j, counts[j]]);
-        }
+        // for (var j in counts) {
+        //   result.push([j, counts[j]]);
+        // }
 
-        result.sort((a, b) => {
-          let x = a[1];
-          let y = b[1];
-          return y - x;
-        });
+        // result.sort((a, b) => {
+        //   let x = a[1];
+        //   let y = b[1];
+        //   return y - x;
+        // });
 
-        res.json(result);
+        res.json(counts);
       });
 
     //   phantom.js
