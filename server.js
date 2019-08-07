@@ -2,10 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const session = require('express-session');
+
 const app = express();
 
 var mongoose = require('mongoose');
 var uristring =
+  process.env.MONGODB_URI ||
   process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost/project3';
