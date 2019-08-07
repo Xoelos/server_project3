@@ -5,7 +5,6 @@ const session = require('express-session');
 const app = express();
 
 var mongoose = require('mongoose');
-const db = require('./models');
 var uristring =
   process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
