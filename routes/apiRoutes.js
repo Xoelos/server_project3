@@ -8,6 +8,7 @@ module.exports = function(app) {
   app.post('/api/account/add', (req, res) => {
     console.log(req.body);
     db.user.findOne({ email: req.body.email }, dbData => {
+      console.log('email is working');
       if (dbData) {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
         res.status(409).json({ err: 'Username is already taken!' });
@@ -15,6 +16,7 @@ module.exports = function(app) {
         db.user.findOne({ username: req.body.username }, dbData => {
           // If there's no user with the given email
           if (dbData) {
+            console.log('username is working');
             console.log(`Username already in use: ${req.body.userName}`);
             res.status(409).json({ err: 'Username is already taken!' });
           } else {
@@ -27,7 +29,8 @@ module.exports = function(app) {
                 password: req.body.password
               },
               dbData => {
-                res.status(200).json({ res: dbData });
+                console.log("It's working!");
+                res.status(200).json({ res: req.body });
               }
             );
           }
