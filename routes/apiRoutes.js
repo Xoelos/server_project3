@@ -1,12 +1,49 @@
-var db = require("../models");
-var passport = require("../config/passport");
-const isAuthenticated = require("../config/middleware/isAuthenticated");
-const isNotAuthenticated = require("../config/middleware/isNotAuthenticated");
-const axios = require("axios");
+var db = require('../models');
+var passport = require('../config/passport');
+const isAuthenticated = require('../config/middleware/isAuthenticated');
+const isNotAuthenticated = require('../config/middleware/isNotAuthenticated');
+const axios = require('axios');
 
 module.exports = function(app) {
+  app.post('/api/account/add', (req, res) => {
+    db.user.findOne({ email: req.body.email }, dbData => {
+      if (dbData) {
+        console.log(`E-Mail Address already in use: ${req.body.email}`);
+        res.status(409).json({ err: 'Username is already taken!' });
+      } else {
+        db.user.findOne({ username: req.body.username }, dbData => {
+          // If there's no user with the given email
+          if (dbData) {
+            console.log(`Username already in use: ${req.body.userName}`);
+            res.status(409).json({ err: 'Username is already taken!' });
+          } else {
+            db.user.create(
+              {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password
+              },
+              dbData => {
+                res.status(200).json({ res: dbData });
+              }
+            );
+          }
+        });
+      }
+    });
+  });
+
+  app.get('/api/:account', (req, res) => {
+    db.user.findOne({ email: req.body.email }, function(err, dbdata) {
+      if (err) throw err;
+      res.json(dbdata);
+    });
+  });
+
   // Load index page
-  app.get("/api/:search", function(req, res) {
+  app.get('/api/:search', function(req, res) {
     let jobSearch = req.params.search;
 
     // *********************************** Testing API function ****************************************
@@ -22,8 +59,8 @@ module.exports = function(app) {
           let desc = element.description;
 
           desc = desc
-            .replace(/[^a-zA-Z ]/g, " ")
-            .split(" ")
+            .replace(/[^a-zA-Z ]/g, ' ')
+            .split(' ')
             .filter(word => word.length > 2)
             .sort();
 
