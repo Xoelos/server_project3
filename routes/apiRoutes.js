@@ -6,6 +6,7 @@ const axios = require('axios');
 
 module.exports = function(app) {
   app.post('/api/account/add', (req, res) => {
+    console.log(req.body);
     db.user.findOne({ email: req.body.email }, dbData => {
       if (dbData) {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
