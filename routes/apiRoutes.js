@@ -20,11 +20,18 @@ module.exports = function(app) {
           },
           dbData => {
             console.log("It's working!");
-            res.status(200).json({ res: req.body, db: dbData });
+            res
+              .status(200)
+              .json({ email: req.body.email, password: req.body.password });
           }
         );
       }
     });
+  });
+
+  app.post('/api/login', passport.authenticate('local'), function(req, res) {
+    console.log('A sucessful login has been made!');
+    res.json(req.user);
   });
 
   app.get('/api/:account', (req, res) => {
@@ -35,46 +42,61 @@ module.exports = function(app) {
   });
 
   // Load index page
-  app.get('/api/:search', function(req, res) {
-    let jobSearch = req.params.search;
+  app.get('/api/:search/:hours?/:location', isAuthenticated, function(
+    req,
+    res
+  ) {
+    if (!req.params.search || !req.params.location) {
+      res.status(200).json({ err: 'Incorrect search' });
+    }
+    let jobSearch = `description=${req.params.search}`;
+    let jobHours;
+    if (req.params.hours) {
+      jobHours = `&full_time=${req.params.hours}`;
+    } else {
+      jobHours = ``;
+    }
+    let jobLocation = `&location=${req.params.location}`;
+    let url =
+      `https://jobs.github.com/positions.json?` +
+      jobSearch +
+      jobHours +
+      jobLocation;
 
     // *********************************** Testing API function ****************************************
-    axios
-      .get(
-        `https://jobs.github.com/positions.json?description=${jobSearch}&full_time=true&location=california`
-      )
-      .then(response => {
-        let counts = {};
-        let result = [];
+    axios.get(url).then(response => {
+      res.json(response);
+      // let counts = {};
+      // let result = [];
 
-        response.data.forEach((element, indexId) => {
-          let desc = element.description;
+      // response.data.forEach((element, indexId) => {
+      //   let desc = element.description;
 
-          desc = desc
-            .replace(/[^a-zA-Z ]/g, ' ')
-            .split(' ')
-            .filter(word => word.length > 2)
-            .sort();
+      //   desc = desc
+      //     .replace(/[^a-zA-Z ]/g, ' ')
+      //     .split(' ')
+      //     .filter(word => word.length > 2)
+      //     .sort();
 
-          for (var i = 0; i < desc.length; i++) {
-            var word = desc[i].toLowerCase();
-            //   word = word.charAt(0).toUpperCase() + word.slice(1);
-            counts[word] = counts[word] ? counts[word] + 1 : 1;
-          }
-        });
+      //   for (var i = 0; i < desc.length; i++) {
+      //     var word = desc[i].toLowerCase();
+      //     //   word = word.charAt(0).toUpperCase() + word.slice(1);
+      //     counts[word] = counts[word] ? counts[word] + 1 : 1;
+      //   }
+      // });
 
-        // for (var j in counts) {
-        //   result.push([j, counts[j]]);
-        // }
+      /*for (var j in counts) {
+        result.push([j, counts[j]]);
+      }
 
-        // result.sort((a, b) => {
-        //   let x = a[1];
-        //   let y = b[1];
-        //   return y - x;
-        // });
+      result.sort((a, b) => {
+        let x = a[1];
+        let y = b[1];
+        return y - x;
+      });*/
 
-        res.json(counts);
-      });
+      // res.json(counts);
+    });
 
     //   phantom.js
   });
