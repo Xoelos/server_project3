@@ -12,7 +12,8 @@ passport.use(
       passwordField: 'password'
     },
     function(email, password, done) {
-      db.user.findOne({ email: email }, dbUser => {
+      db.user.findOne({ email: email }, (err, dbUser) => {
+        if (err) throw err
         // If there's no user with the given email
         console.log(dbUser);
         if (!dbUser) {
