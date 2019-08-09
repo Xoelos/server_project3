@@ -21,7 +21,7 @@ passport.use(
           return done(null, false, {
             message: 'Invalid login, please try again!'
           });
-        } else if (!bcrypt.compareSync(password, dbUser.password) {
+        } else if (!bcrypt.compareSync(password, dbUser.password)) {
           console.log('An incorrect password was attempted');
           return done(null, false, {
             message: 'Invalid login, please try again!'
