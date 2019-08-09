@@ -6,6 +6,24 @@ const axios = require('axios');
 var bcrypt = require('bcryptjs');
 
 module.exports = function(app) {
+  
+  
+
+function checkAuthentication(req,res,next){
+    if(req.isAuthenticated()){
+        //req.isAuthenticated() will return true if user is logged in
+        next();
+    } else{
+        res.status(401).json({err: "invalid login"});
+    }
+}
+  
+  
+  
+  
+  
+  
+  
   app.post('/api/account/add', (req, res) => {
     db.user.findOne({ email: req.body.email }, dbData => {
       if (dbData) {
@@ -47,7 +65,7 @@ module.exports = function(app) {
   });
 
   // Load index page
-  app.get('/api/:search/:hours?/:location', isAuthenticated, function(
+  app.get('/api/:search/:hours?/:location', checkAuthentication, function(
     req,
     res
   ) {
