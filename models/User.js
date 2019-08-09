@@ -14,13 +14,7 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
-  // `title` is required and of type String
   email: {
-    type: String,
-    required: true
-  },
-  // `link` is required and of type String
-  username: {
     type: String,
     required: true
   },

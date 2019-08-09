@@ -6,35 +6,23 @@ const axios = require('axios');
 
 module.exports = function(app) {
   app.post('/api/account/add', (req, res) => {
-    console.log(req.body);
     db.user.findOne({ email: req.body.email }, dbData => {
-      console.log('email is working');
       if (dbData) {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
-        res.status(409).json({ err: 'Username is already taken!' });
+        res.status(409).json({ err: 'Email is already taken!' });
       } else {
-        db.user.findOne({ username: req.body.username }, dbData => {
-          // If there's no user with the given email
-          if (dbData) {
-            console.log('username is working');
-            console.log(`Username already in use: ${req.body.userName}`);
-            res.status(409).json({ err: 'Username is already taken!' });
-          } else {
-            db.user.create(
-              {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password
-              },
-              dbData => {
-                console.log("It's working!");
-                res.status(200).json({ res: req.body });
-              }
-            );
+        db.user.create(
+          {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: req.body.password
+          },
+          dbData => {
+            console.log("It's working!");
+            res.status(200).json({ res: req.body, db: dbData });
           }
-        });
+        );
       }
     });
   });
