@@ -52,7 +52,7 @@ module.exports = function(app) {
     res
   ) {
     if (!req.params.search || !req.params.location) {
-      res.status(200).json({ err: 'Incorrect search' });
+      res.status(400).json({ err: 'Incorrect search' });
     }
     let jobSearch = `description=${req.params.search}`;
     let jobHours;
@@ -67,9 +67,12 @@ module.exports = function(app) {
       jobSearch +
       jobHours +
       jobLocation;
+    
+    console.log(url);
 
     // *********************************** Testing API function ****************************************
     axios.get(url).then(response => {
+      console.log(response);
       res.json(response);
       // let counts = {};
       // let result = [];
