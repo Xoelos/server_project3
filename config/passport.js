@@ -9,11 +9,12 @@ passport.use(
     // Our user will sign in using an email, rather than a "username"
     {
       usernameField: 'email',
-      passwordField: 'passwd'
+      passwordField: 'password'
     },
     function(email, password, done) {
       db.user.findOne({ email: email }, dbUser => {
         // If there's no user with the given email
+        console.log(dbUser);
         if (!dbUser) {
           console.log(`An incorrect email address was attempted: ${email}`);
           return done(null, false, {

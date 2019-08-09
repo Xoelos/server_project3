@@ -3,6 +3,7 @@ var passport = require('../config/passport');
 const isAuthenticated = require('../config/middleware/isAuthenticated');
 const isNotAuthenticated = require('../config/middleware/isNotAuthenticated');
 const axios = require('axios');
+var bcrypt = require('bcryptjs');
 
 module.exports = function(app) {
   app.post('/api/account/add', (req, res) => {
@@ -11,18 +12,22 @@ module.exports = function(app) {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
         res.status(409).json({ err: 'Email is already taken!' });
       } else {
+        let pswrd = bcrypt.hashSync(
+          req.body.password,
+          bcrypt.genSaltSync(10),
+          null
+        );
+        console.log(pswrd);
         db.user.create(
           {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            password: req.body.password
+            password: pswrd
           },
           dbData => {
-            console.log("It's working!");
-            res
-              .status(200)
-              .json({ email: req.body.email, password: req.body.password });
+            console.log('Account has been created in the database!');
+            res.status(200).json({ email: req.body.email, password: pswrd });
           }
         );
       }
@@ -30,7 +35,7 @@ module.exports = function(app) {
   });
 
   app.post('/api/login', passport.authenticate('local'), function(req, res) {
-    console.log('A sucessful login has been made!');
+    console.log('A login has been attempted!');
     res.json(req.user);
   });
 
