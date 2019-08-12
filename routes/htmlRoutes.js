@@ -1,6 +1,8 @@
+var path = require('path');
+
 module.exports = function(app) {
-    // Load index page
+    // viewed at http://localhost:8080
     app.get('/', function(req, res) {
-        res.sendFile(index.html);
+        res.sendFile(path.join(__dirname + '/index.html'));
     });
 };
