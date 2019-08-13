@@ -90,7 +90,7 @@ function checkAuthentication(req,res,next){
     // *********************************** Testing API function ****************************************
     axios.get(url).then(response => {
       console.log(response);
-      res.json(response);
+      res.json({res: response});
       // let counts = {};
       // let result = [];
 
