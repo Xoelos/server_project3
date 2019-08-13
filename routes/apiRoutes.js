@@ -12,8 +12,7 @@ module.exports = function(app) {
 function checkAuthentication(req,res,next){
               //isAuthenticated() will return true if user is logged in
         if (isAuthenticated()) {
-            console.log('REQ.USER is: ');
-            console.table(req.user);
+            console.log('Account tried with email: ' + req.email);
             next();
         } else {
             console.log(
