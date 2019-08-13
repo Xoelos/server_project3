@@ -24,7 +24,7 @@ function checkAuthentication(req,res,next){
   
   
   
-  app.post('/api/account/add', (req, res) => {
+  app.post('/api/add/account', (req, res) => {
     db.user.findOne({ email: req.body.email }, dbData => {
       if (dbData) {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
