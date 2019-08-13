@@ -10,18 +10,18 @@ module.exports = function(app) {
   
 
 function checkAuthentication(req,res,next){
-    if(req.isAuthenticated()){
-        //req.isAuthenticated() will return true if user is logged in
-        next();
-    } else{
-        res.status(401).json({err: "invalid login"});
+              //isAuthenticated() will return true if user is logged in
+        if (isAuthenticated()) {
+            console.log('REQ.USER is: ');
+            console.table(req.user);
+            next();
+        } else {
+            console.log(
+                `Invalid Authentication from address: ${req.connection.remoteAddress}`
+              );
+            res.status(401).json({ err: 'invalid login' });
+        }
     }
-}
-  
-  
-  
-  
-  
   
   
   app.post('/api/add/account', (req, res) => {
