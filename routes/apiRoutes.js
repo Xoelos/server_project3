@@ -67,7 +67,7 @@ module.exports = function(app) {
   });
 
   // Load index page
-  app.get('/api/:search/:hours?/:location', checkAuthentication, function(
+  app.get('/api/:search/:hours?/:location', function(
     req,
     res
   ) {
