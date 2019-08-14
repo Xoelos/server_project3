@@ -6,11 +6,9 @@ const session = require('express-session');
 const app = express();
 
 var mongoose = require('mongoose');
-var uristring =
-  process.env.MONGODB_URI ||
-  'mongodb://localhost/project3';
+var uristring = process.env.MONGODB_URI || 'mongodb://localhost/project3';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Requiring passport as we've configured it
 var passport = require('./config/passport');

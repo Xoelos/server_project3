@@ -6,24 +6,20 @@ const axios = require('axios');
 var bcrypt = require('bcryptjs');
 
 module.exports = function(app) {
-  
-  
-
-function checkAuthentication(req,res,next){
-              //isAuthenticated() will return true if user is logged in
-        if (req.isAuthenticated()) {
-            console.log('Account tried with email: ');
-            console.table(req.user)
-            next();
-        } else {
-            console.log(
-                `Invalid Authentication from address: ${req.connection.remoteAddress}`
-              );
-            res.status(401).json({ err: 'invalid login' });
-        }
+  function checkAuthentication(req, res, next) {
+    //isAuthenticated() will return true if user is logged in
+    if (req.isAuthenticated()) {
+      console.log('Account tried with email: ');
+      console.table(req.user);
+      next();
+    } else {
+      console.log(
+        `Invalid Authentication from address: ${req.connection.remoteAddress}`
+      );
+      res.status(401).json({ err: 'invalid login' });
     }
-  
-  
+  }
+
   app.post('/api/add/account', (req, res) => {
     db.user.findOne({ email: req.body.email }, dbData => {
       if (dbData) {
@@ -54,7 +50,13 @@ function checkAuthentication(req,res,next){
 
   app.post('/api/login', passport.authenticate('local'), function(req, res) {
     console.log('A login has been attempted!');
-    res.json(req.user);
+    res.status(200).json(req.user);
+  });
+
+  // Route for logging user out
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.status(200).json({ mes: 'You have successfully logged out!' });
   });
 
   app.get('/api/:account', (req, res) => {
@@ -85,12 +87,12 @@ function checkAuthentication(req,res,next){
       jobSearch +
       jobHours +
       jobLocation;
-    
+
     console.log(url);
 
     // *********************************** Testing API function ****************************************
     axios.get(url).then(response => {
-      res.json({res: response.data});
+      res.status(200).json({ res: response.data });
       // let counts = {};
       // let result = [];
 
