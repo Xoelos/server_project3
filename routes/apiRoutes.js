@@ -75,6 +75,8 @@ module.exports = function(app) {
       res.status(400).json({ err: 'Incorrect search' });
     }
     let jobSearch = `description=${req.params.search}`;
+    
+    // trim the search queries!!!!!!!!!*******************************************
     let jobHours;
     if (req.params.hours) {
       jobHours = `&full_time=${req.params.hours}`;
@@ -92,7 +94,7 @@ module.exports = function(app) {
 
     // *********************************** Testing API function ****************************************
     axios.get(url).then(response => {
-      res.status(200).json({ res: response.data });
+      res.status(200).json({ res: response.data.data });
       // let counts = {};
       // let result = [];
 
