@@ -5,21 +5,23 @@ const isNotAuthenticated = require('../config/middleware/isNotAuthenticated');
 const axios = require('axios');
 var bcrypt = require('bcryptjs');
 
-module.exports = function(app) {
-  function checkAuthentication(req, res, next) {
-    //isAuthenticated() will return true if user is logged in
-    if (req.isAuthenticated()) {
-      console.log('Account tried with email: ');
-      console.table(req.user);
-      next();
-    } else {
-      console.log(
-        `Invalid Authentication from address: ${req.connection.remoteAddress}`
-      );
-      res.status(401).json({ err: 'invalid login' });
-    }
-  }
+module.exports = app => {
+  // Function to call to check user's authentication
+  // function checkAuthentication(req, res, next) {
+  //   //isAuthenticated() will return true if user is logged in
+  //   if (req.isAuthenticated()) {
+  //     console.log('Account tried with email: ');
+  //     console.table(req.user);
+  //     next();
+  //   } else {
+  //     console.log(
+  //       `Invalid Authentication from address: ${req.connection.remoteAddress}`
+  //     );
+  //     res.status(401).json({ err: 'invalid login' });
+  //   }
+  // }
 
+  // creates account with encrypted password
   app.post('/api/add/account', (req, res) => {
     db.user.findOne({ email: req.body.email }, dbData => {
       if (dbData) {
@@ -48,47 +50,48 @@ module.exports = function(app) {
     });
   });
 
-  app.post('/api/login', passport.authenticate('local'), function(req, res) {
+  // Initiates session with passport
+  app.post('/api/login', passport.authenticate('local'), (req, res) => {
     console.log('A login has been attempted!');
     res.status(200).json(req.user);
   });
 
   // Route for logging user out
-  app.get('/logout', function(req, res) {
+  app.get('/logout', (req, res) => {
     req.logout();
     res.status(200).json({ mes: 'You have successfully logged out!' });
   });
 
+  // This route is called when react loads pages that require authentication
+  app.get('/api/checkauthentication', isAuthenticated, (req, res) => {
+    res.status(200).json({ res: 'Success!' });
+  });
+
   app.get('/api/:account', (req, res) => {
-    db.user.findOne({ email: req.body.email }, function(err, dbdata) {
+    db.user.findOne({ email: req.body.email }, (err, dbdata) => {
       if (err) throw err;
       res.json(dbdata);
     });
   });
 
-  // Load index page
-  app.get('/api/:search/:hours?/:location', function(
-    req,
-    res
-  ) {
+  // Search for Jobs
+  app.get('/api/:search/:location/:hours?', (req, res) => {
     if (!req.params.search || !req.params.location) {
       res.status(400).json({ err: 'Incorrect search' });
     }
-    let jobSearch = `description=${req.params.search}`;
-    
-    // trim the search queries!!!!!!!!!*******************************************
+    let jobSearch = `description=${req.params.search.trim()}`;
+    let jobLocation = `&location=${req.params.location.trim()}`;
     let jobHours;
     if (req.params.hours) {
-      jobHours = `&full_time=${req.params.hours}`;
+      jobHours = `&full_time=${req.params.hours.trim()}`;
     } else {
       jobHours = ``;
     }
-    let jobLocation = `&location=${req.params.location}`;
     let url =
       `https://jobs.github.com/positions.json?` +
       jobSearch +
-      jobHours +
-      jobLocation;
+      jobLocation +
+      jobHours;
 
     console.log(url);
 

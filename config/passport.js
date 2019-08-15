@@ -14,7 +14,7 @@ passport.use(
     },
     function(email, password, done) {
       db.user.findOne({ email: email }, (err, dbUser) => {
-        if (err) throw err
+        if (err) throw err;
         // If there's no user with the given email
         console.log(dbUser);
         if (!dbUser) {
@@ -39,10 +39,12 @@ passport.use(
 // Sequelize needs to serialize and deserialize the user
 // Just consider this part boilerplate needed to make it all work
 passport.serializeUser(function(user, cb) {
+  console.log('serialized!');
   cb(null, user);
 });
 
 passport.deserializeUser(function(obj, cb) {
+  console.log('deserialized!');
   cb(null, obj);
 });
 
