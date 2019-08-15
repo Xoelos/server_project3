@@ -9,10 +9,10 @@ passport.use(
   new LocalStrategy(
     // Our user will sign in using an email, rather than a "username"
     {
-      email: 'email'
+      usernameField: 'email'
     },
     function(email, password, done) {
-      db.user.findOne({ email: email }, (err, dbUser) => {
+      db.user.findOne({ email: email }, function(err, dbUser) {
         if (err) throw err;
         // If there's no user with the given email
         console.log(dbUser);

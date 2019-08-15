@@ -8,6 +8,7 @@ var bcrypt = require('bcryptjs');
 module.exports = app => {
   // Function to call to check user's authentication
   // function checkAuthentication(req, res, next) {
+  //   console.log(req.user);
   //   //isAuthenticated() will return true if user is logged in
   //   if (req.isAuthenticated()) {
   //     console.log('Account tried with email: ');
@@ -23,7 +24,8 @@ module.exports = app => {
 
   // creates account with encrypted password
   app.post('/api/add/account', (req, res) => {
-    db.user.findOne({ email: req.body.email }, dbData => {
+    db.user.findOne({ email: req.body.email }, (err, dbData) => {
+      if (err) throw err;
       if (dbData) {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
         res.status(409).json({ err: 'Email is already taken!' });
@@ -33,7 +35,6 @@ module.exports = app => {
           bcrypt.genSaltSync(10),
           null
         );
-        console.log(pswrd);
         db.user.create(
           {
             firstName: req.body.firstName,
@@ -41,9 +42,11 @@ module.exports = app => {
             email: req.body.email,
             password: pswrd
           },
-          dbData => {
+          (err, dbData) => {
             console.log('Account has been created in the database!');
-            res.status(200).json({ email: req.body.email, password: pswrd });
+            res
+              .status(200)
+              .json({ email: req.body.email, password: req.body.password });
           }
         );
       }
@@ -53,7 +56,7 @@ module.exports = app => {
   // Initiates session with passport
   app.post('/api/login', passport.authenticate('local'), (req, res) => {
     console.log('A login has been attempted!');
-    res.status(200).json(req.user);
+    res.status(200).json({ user: req.user });
   });
 
   // Route for logging user out
@@ -97,7 +100,7 @@ module.exports = app => {
 
     // *********************************** Testing API function ****************************************
     axios.get(url).then(response => {
-      res.status(200).json({ res: response.data.data });
+      res.status(200).json({ res: response.data });
       // let counts = {};
       // let result = [];
 
