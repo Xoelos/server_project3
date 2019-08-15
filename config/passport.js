@@ -9,8 +9,7 @@ passport.use(
   new LocalStrategy(
     // Our user will sign in using an email, rather than a "username"
     {
-      usernameField: 'email',
-      passwordField: 'password'
+      email: 'email'
     },
     function(email, password, done) {
       db.user.findOne({ email: email }, (err, dbUser) => {
