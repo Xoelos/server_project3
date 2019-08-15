@@ -5,6 +5,6 @@ module.exports = function(req, res, next) {
     return next();
   } else {
     // If the user isn't logged in, redirect them to the login page
-    return res.redirect("/");
+    return res.status(401).json({ err: 'Access Denied!' });
   }
 };
