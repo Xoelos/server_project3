@@ -37,8 +37,7 @@ module.exports = app => {
         );
         db.user.create(
           {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            fullName: req.body.fullName,
             email: req.body.email,
             password: pswrd
           },
@@ -67,7 +66,8 @@ module.exports = app => {
 
   // This route is called when react loads pages that require authentication
   app.get('/api/checkauthentication', isAuthenticated, (req, res) => {
-    res.status(200).json({ res: 'Success!' });
+    console.log('is there a user?', req.user);
+    res.status(200).json({ res: req.user });
   });
 
   app.get('/api/:account', (req, res) => {

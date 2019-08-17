@@ -9,13 +9,23 @@ const mongoose = require('mongoose');
 const uristring = process.env.MONGODB_URI || 'mongodb://localhost/project3';
 
 const cors = require('cors');
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'http://project3du.s3-website.us-east-2.amazonaws.com'
+    ],
+    credentials: true,
+    allowedHeaders:
+      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+  })
+);
 
 // Requiring passport as we've configured it
 const passport = require('./config/passport');
 
 // Creating express app and configuring middleware needed for authentication
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
 // We need to use sessions to keep track of our user's login status

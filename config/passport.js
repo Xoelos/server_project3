@@ -12,10 +12,8 @@ passport.use(
       usernameField: 'email'
     },
     function(email, password, done) {
-      db.user.findOne({ email: email }, function(err, dbUser) {
-        if (err) throw err;
+      db.user.findOne({ email: email }).then(dbUser => {
         // If there's no user with the given email
-        console.log(dbUser);
         if (!dbUser) {
           console.log(`An incorrect email address was attempted: ${email}`);
           return done(null, false, {
@@ -27,6 +25,8 @@ passport.use(
             message: 'Invalid login, please try again!'
           });
         }
+        console.log('User logged in with: ');
+        console.log(dbUser);
         // If none of the above, return the user
         return done(null, dbUser);
       });

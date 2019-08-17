@@ -7,5 +7,8 @@ module.exports = function(req, res, next) {
     return next();
   }
 
-  return res.status(401).json({ err: 'error!' });
+  console.log(
+    `Invalid Authentication from address: ${req.connection.remoteAddress}`
+  );
+  res.status(401).json({ err: 'error!' });
 };
