@@ -7,21 +7,53 @@ var Schema = mongoose.Schema;
 // This is similar to a Sequelize model
 var DataSchema = new Schema({
   savedJobs: {
-    type: String,
-    required: true
+    type: Array,
+    required: false
   },
   // `title` is required and of type String
   savedTutorials: {
+    type: Array,
+    required: false
+  },
+  addressStreet: {
     type: String,
     required: true
   },
-  Address: {
+  addressCity: {
     type: String,
     required: true
   },
-  Contact: {
+  contactEmail: {
     type: Array,
     required: true
+  },
+  contactPhone: {
+    type: Array,
+    required: true
+  },
+  portfolioURL: {
+    type: String,
+    required: false
+  },
+  contactPhone: {
+    type: Array,
+    required: true
+  },
+  summary: {
+    type: String,
+    required: true
+  },
+  educationHistory: {
+    type: Schema.Types.ObjectId,
+    ref: "userSchool"
+  },
+  workHistory: {
+    type: Schema.Types.ObjectId,
+    ref: "userWork"
+  },
+  projectHistory: {
+    type: Schema.Types.ObjectId,
+    ref: "userProject"
   }
 });
 
