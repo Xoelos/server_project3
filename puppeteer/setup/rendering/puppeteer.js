@@ -20,6 +20,7 @@ async function puppeteerRender(id) {
     console.log("About to go to page!");
 
     //This will allow puppeteer to go to a webpage that is not in our repository
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!THIS NEEDS TO BE UPDATED TO WORK ON
     await page.goto("http://localhost:3006");
 
     //Loads the html file into our browser tab
