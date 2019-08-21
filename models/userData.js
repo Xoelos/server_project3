@@ -6,10 +6,6 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new NoteSchema object
 // This is similar to a Sequelize model
 var DataSchema = new Schema({
-  listedSkills: {
-    type: String,
-    required: true
-  },
   savedJobs: {
     type: String,
     required: true
@@ -19,13 +15,12 @@ var DataSchema = new Schema({
     type: String,
     required: true
   },
-  // `link` is required and of type String
-  education: {
+  Address: {
     type: String,
     required: true
   },
-  password: {
-    type: String,
+  Contact: {
+    type: Array,
     required: true
   }
 });
