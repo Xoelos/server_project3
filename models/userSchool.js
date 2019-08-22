@@ -21,14 +21,6 @@ var userSchool = new Schema({
   schoolCourse: {
     type: String,
     required: false
-  },
-  schoolYearFrom: {
-    type: String,
-    required: true
-  },
-  schoolYearTo: {
-    type: String,
-    required: true
   }
 });
 

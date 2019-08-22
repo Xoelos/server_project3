@@ -24,16 +24,20 @@ var DataSchema = new Schema({
     required: true
   },
   contactEmail: {
-    type: String,
-    required: false
+    type: Array,
+    required: true
   },
   contactPhone: {
-    type: String,
+    type: Array,
     required: true
   },
   portfolioURL: {
     type: String,
     required: false
+  },
+  contactPhone: {
+    type: Array,
+    required: true
   },
   summary: {
     type: String,
