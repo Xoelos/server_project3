@@ -1,26 +1,30 @@
 {
-  "name": "3",
+  "name": "node-handlebars-boilerplate",
   "version": "1.0.0",
-  "description": "",
-  "main": "node.js",
-  "dependencies": {
-    "axios": "^0.19.0",
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.4",
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
-    "express": "^4.17.1",
-    "express-session": "^1.16.2",
-    "mongoose": "^5.6.8",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "puppeteer": "^1.19.0"
-  },
-  "devDependencies": {},
+  "description": "Project 2 Starter",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node puppeteer/setup/ssr-render/server/index.js && node server.js"
+    "start": "node server.js",
+    "lint": "eslint --quiet .",
+    "fix": "eslint --fix .",
+    "test": "npm run lint && cross-env NODE_ENV=test mocha -u bdd --reporter spec --exit"
   },
-  "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "express-handlebars": "^3.1.0",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.8.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "mocha": "^6.1.4",
+    "prettier": "^1.17.1"
+  }
 }
