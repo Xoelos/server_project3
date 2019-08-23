@@ -1,38 +1,31 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
-var userSchool = new Schema({
+var UserSchoolSchema = new Schema({
   schoolName: {
     type: String,
-    required: false
-  },
-  schoolLocation: {
-    type: String,
-    required: false
+    required: false,
+    default: 'Fake University'
   },
   schoolDegree: {
     type: String,
-    required: false
-  },
-  schoolCourse: {
-    type: String,
-    required: false
+    required: false,
+    default: 'PhD'
   },
   schoolYearFrom: {
-    type: String,
-    required: false
+    type: Number,
+    required: false,
+    default: 1970
   },
   schoolYearTo: {
-    type: String,
-    required: false
+    type: Number,
+    required: false,
+    default: 1974
   }
 });
 
-// This creates our model from the above schema, using mongoose's model method
-var userSchool = mongoose.model("userSchool", userSchool);
-
-module.exports = userSchool;
+module.exports = UserSchoolSchema;
