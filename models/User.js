@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var UserProjectSchema = require('./userProject');
 const UserSchoolSchema = require('./userSchool');
 const UserWorkSchema = require('./userWork');
+const UserSkillsSchema = require('./userSkills');
+
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
@@ -23,32 +25,36 @@ var UserSchema = new Schema({
   addressStreet: {
     type: String,
     required: false,
-    default: 'Somewhere Lane'
+    default: '0000 Default Drive'
   },
   addressCity: {
     type: String,
     required: false,
-    default: 'Denver, CO 80231'
+    default: 'Default, ST 00000'
   },
   phone: {
-    type: String,
-    required: false
+    type: Number,
+    required: false,
+    default: 123456789
   },
   portfolioURL: {
     type: String,
-    required: false
+    required: false,
+    default: 'www.google.com'
   },
   summary: {
     type: String,
-    required: false
+    required: false,
+    default:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
   },
   skills: {
-    type: Array,
+    type: UserSkillsSchema,
     required: false,
-    default: ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    default: UserSkillsSchema
   },
   userSchool: [UserSchoolSchema],
-  userProject: [UserProjectSchema],
+  userProjects: [UserProjectSchema],
   userWork: [UserWorkSchema]
 });
 
