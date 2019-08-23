@@ -6,9 +6,13 @@ var Schema = mongoose.Schema;
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
 var userWork = new Schema({
+  companyTitle: {
+    type: String,
+    required: false
+  },
   jobTitle: {
     type: String,
-    required: true
+    required: false
   },
   jobDate: {
     type: String,
@@ -16,7 +20,7 @@ var userWork = new Schema({
   },
   jobSummary: {
     type: String,
-    required: true
+    required: false
   }
 });
 

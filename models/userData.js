@@ -10,18 +10,17 @@ var DataSchema = new Schema({
     type: Array,
     required: false
   },
-  // `title` is required and of type String
   savedTutorials: {
     type: Array,
     required: false
   },
   addressStreet: {
     type: String,
-    required: true
+    required: false
   },
   addressCity: {
     type: String,
-    required: true
+    required: false
   },
   contactEmail: {
     type: String,
@@ -29,7 +28,7 @@ var DataSchema = new Schema({
   },
   contactPhone: {
     type: String,
-    required: true
+    required: false
   },
   portfolioURL: {
     type: String,
@@ -37,20 +36,21 @@ var DataSchema = new Schema({
   },
   summary: {
     type: String,
-    required: true
-  },
-  educationHistory: {
-    type: Schema.Types.ObjectId,
-    ref: "userSchool"
-  },
-  workHistory: {
-    type: Schema.Types.ObjectId,
-    ref: "userWork"
-  },
-  projectHistory: {
-    type: Schema.Types.ObjectId,
-    ref: "userProject"
+    required: false
   }
+  // ,
+  // educationHistory: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "userSchool"
+  // },
+  // workHistory: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "userWork"
+  // },
+  // projectHistory: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "userProject"
+  // }
 });
 
 // This creates our model from the above schema, using mongoose's model method

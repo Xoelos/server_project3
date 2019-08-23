@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var userSchool = new Schema({
   schoolName: {
     type: String,
-    required: true
+    required: false
   },
   schoolLocation: {
     type: String,
@@ -16,7 +16,7 @@ var userSchool = new Schema({
   },
   schoolDegree: {
     type: String,
-    required: true
+    required: false
   },
   schoolCourse: {
     type: String,
@@ -24,11 +24,11 @@ var userSchool = new Schema({
   },
   schoolYearFrom: {
     type: String,
-    required: true
+    required: false
   },
   schoolYearTo: {
     type: String,
-    required: true
+    required: false
   }
 });
 

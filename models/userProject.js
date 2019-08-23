@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var userProject = new Schema({
   projectTitle: {
     type: String,
-    required: true
+    required: false
   },
   projectURL: {
     type: String,
@@ -16,7 +16,7 @@ var userProject = new Schema({
   },
   projectSummary: {
     type: String,
-    required: true
+    required: false
   }
 });
 
