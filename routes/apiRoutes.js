@@ -6,22 +6,6 @@ const axios = require('axios');
 var bcrypt = require('bcryptjs');
 
 module.exports = app => {
-  // Function to call to check user's authentication
-  // function checkAuthentication(req, res, next) {
-  //   console.log(req.user);
-  //   //isAuthenticated() will return true if user is logged in
-  //   if (req.isAuthenticated()) {
-  //     console.log('Account tried with email: ');
-  //     console.table(req.user);
-  //     next();
-  //   } else {
-  //     console.log(
-  //       `Invalid Authentication from address: ${req.connection.remoteAddress}`
-  //     );
-  //     res.status(401).json({ err: 'invalid login' });
-  //   }
-  // }
-
   // creates account with encrypted password
   app.post('/api/add/account', (req, res) => {
     db.user.findOne({ email: req.body.email }, (err, dbData) => {
@@ -30,11 +14,7 @@ module.exports = app => {
         console.log(`E-Mail Address already in use: ${req.body.email}`);
         res.status(409).json({ err: 'Email is already taken!' });
       } else {
-        let pswrd = bcrypt.hashSync(
-          req.body.password,
-          bcrypt.genSaltSync(10),
-          null
-        );
+        let pswrd = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null);
         db.user.create(
           {
             fullName: req.body.fullName,
@@ -43,9 +23,7 @@ module.exports = app => {
           },
           (err, dbData) => {
             console.log('Account has been created in the database!');
-            res
-              .status(200)
-              .json({ email: req.body.email, password: req.body.password });
+            res.status(200).json({ email: req.body.email, password: req.body.password });
           }
         );
       }
@@ -55,9 +33,28 @@ module.exports = app => {
   // Initiates session with passport
   app.post('/api/login', passport.authenticate('local'), (req, res) => {
     console.log('A login has been attempted!');
-    res.status(200).json({ user: req.user });
+    let user = req.user;
+    res.status(200).json({ user });
   });
 
+  app.put('/api/account/details', passport.authenticate('local'), (req, res) => {
+    console.log(req.body);
+    let user = req.body;
+    let where = { _id: user.id };
+    update = {
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      portfolioURL: user.portfolioURL,
+      addressStreet: user.addressStreet,
+      addressCity: user.addressCity,
+      summary: user.summary
+    };
+    db.user.findOneAndUpdate(where, update, dbRes => {
+      console.log(dbRes);
+      res.status(200).json(dbRes);
+    });
+  });
   // Route for logging user out
   app.get('/logout', (req, res) => {
     req.logout();
@@ -90,11 +87,7 @@ module.exports = app => {
     } else {
       jobHours = ``;
     }
-    let url =
-      `https://jobs.github.com/positions.json?` +
-      jobSearch +
-      jobLocation +
-      jobHours;
+    let url = `https://jobs.github.com/positions.json?` + jobSearch + jobLocation + jobHours;
 
     console.log(url);
 

@@ -1,8 +1,9 @@
-var mongoose = require("mongoose");
-var userData = require("./userData");
-var userProject = require("./userProject");
-const userSchool = require("./userSchool");
-const userWork = require("./userWork");
+var mongoose = require('mongoose');
+var UserProjectSchema = require('./userProject');
+const UserSchoolSchema = require('./userSchool');
+const UserWorkSchema = require('./userWork');
+const UserSkillsSchema = require('./userSkills');
+
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
@@ -21,19 +22,44 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
-  userData: { userData },
-  userProject: [userProject],
-  userSchool: [userSchool],
-  userWork: [userWork]
-
-  // usersData: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "userData"
-  // }
+  addressStreet: {
+    type: String,
+    required: false,
+    default: '0000 Default Drive'
+  },
+  addressCity: {
+    type: String,
+    required: false,
+    default: 'Default, ST 00000'
+  },
+  phone: {
+    type: Number,
+    required: false,
+    default: 123456789
+  },
+  portfolioURL: {
+    type: String,
+    required: false,
+    default: 'www.google.com'
+  },
+  summary: {
+    type: String,
+    required: false,
+    default:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+  },
+  skills: {
+    type: UserSkillsSchema,
+    required: false,
+    default: UserSkillsSchema
+  },
+  userSchool: [UserSchoolSchema],
+  userProjects: [UserProjectSchema],
+  userWork: [UserWorkSchema]
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var User = mongoose.model("User", UserSchema);
+var User = mongoose.model('User', UserSchema);
 
 // Export the Article model
 module.exports = User;

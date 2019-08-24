@@ -1,26 +1,26 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new UserSchema object
 // This is similar to a Sequelize model
-var userProject = new Schema({
-  projectTitle: {
+var UserProjectSchema = new Schema({
+  projectName: {
     type: String,
-    required: false
+    required: false,
+    default: 'Sample Project'
   },
   projectURL: {
     type: String,
-    required: false
+    required: false,
+    default: 'www.google.com'
   },
-  projectSummary: {
+  projectDesc: {
     type: String,
-    required: false
+    required: false,
+    default: 'A sample project that does something'
   }
 });
 
-// This creates our model from the above schema, using mongoose's model method
-var userProject = mongoose.model("userProject", userProject);
-
-module.exports = userProject;
+module.exports = UserProjectSchema;
