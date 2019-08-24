@@ -19,7 +19,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node puppeteer/setup/ssr-render/server/index.js && node server.js"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC"
