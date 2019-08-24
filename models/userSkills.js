@@ -9,22 +9,22 @@ var UserSkillsSchema = new Schema({
   skill1: {
     type: String,
     required: false,
-    default: 'Skill 1'
+    default: 'Software'
   },
   skill2: {
     type: String,
     required: false,
-    default: 'Skill 2'
+    default: 'Python'
   },
   skill3: {
     type: String,
     required: false,
-    default: 'Skill 3'
+    default: 'Javascript'
   },
   skill4: {
     type: String,
     required: false,
-    default: 'Skill 4'
+    default: 'Engineer'
   },
   skill5: {
     type: String,
