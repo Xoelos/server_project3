@@ -11,13 +11,9 @@ const uristring = process.env.MONGODB_URI || 'mongodb://localhost/project3';
 const cors = require('cors');
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'http://project3du.s3-website.us-east-2.amazonaws.com'
-    ],
+    origin: ['http://project3du.s3-website.us-east-2.amazonaws.com'],
     credentials: true,
-    allowedHeaders:
-      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
   })
 );
 
