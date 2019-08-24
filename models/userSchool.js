@@ -8,23 +8,19 @@ var Schema = mongoose.Schema;
 var UserSchoolSchema = new Schema({
   schoolName: {
     type: String,
-    required: false,
-    default: 'Fake University'
+    required: false
   },
   schoolDegree: {
     type: String,
-    required: false,
-    default: 'PhD'
+    required: false
   },
   schoolYearFrom: {
-    type: Number,
-    required: false,
-    default: 1970
+    type: String,
+    required: false
   },
   schoolYearTo: {
-    type: Number,
-    required: false,
-    default: 1974
+    type: String,
+    required: false
   }
 });
 
