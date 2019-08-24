@@ -8,19 +8,15 @@ var Schema = mongoose.Schema;
 var UserProjectSchema = new Schema({
   projectName: {
     type: String,
-    required: false,
-    default: 'Sample Project'
+    required: false
   },
   projectURL: {
     type: String,
-    required: false,
-    default: 'www.google.com'
+    required: false
   },
   projectDesc: {
     type: String,
-    required: false,
-    default: 'A sample project that does something'
+    required: false
   }
 });
-
 module.exports = UserProjectSchema;

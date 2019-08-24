@@ -37,25 +37,6 @@ module.exports = app => {
     res.status(200).json({ user });
   });
 
-  app.put('/api/account/details', (req, res) => {
-    console.log(req.body);
-    let user = req.body;
-    let where = { _id: user.id };
-    update = {
-      fullName: user.fullName,
-      email: user.email,
-      phone: user.phone,
-      portfolioURL: user.portfolioURL,
-      addressStreet: user.addressStreet,
-      addressCity: user.addressCity,
-      summary: user.summary
-    };
-    db.user.findOneAndUpdate(where, update, dbRes => {
-      console.log(dbRes);
-      res.status(200).json(dbRes);
-    });
-  });
-
   // Route for logging user out
   app.get('/logout', (req, res) => {
     req.logout();
@@ -69,14 +50,115 @@ module.exports = app => {
     });
   });
 
-  app.get('/api/:account', (req, res) => {
-    db.user.findOne({ email: req.body.email }, (err, dbdata) => {
-      if (err) throw err;
-      res.json(dbdata);
+  // ************************* Routes to update account details ************************
+  app.put('/api/account/details', (req, res) => {
+    console.log('req: ');
+    console.log(req.body);
+    let user = req.body;
+    let where = { _id: user.id };
+    let update = {
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      portfolioURL: user.portfolioURL,
+      addressStreet: user.addressStreet,
+      addressCity: user.addressCity,
+      summary: user.summary,
+      $set: {
+        'skills.skill1': user.skills.skill1,
+        'skills.skill2': user.skills.skill2,
+        'skills.skill3': user.skills.skill3,
+        'skills.skill4': user.skills.skill4,
+        'skills.skill5': user.skills.skill5,
+        'skills.skill6': user.skills.skill6,
+        'skills.skill7': user.skills.skill7,
+        'skills.skill8': user.skills.skill8,
+        'skills.skill9': user.skills.skill9
+      }
+    };
+    db.user.findOneAndUpdate(where, update, (err, dbRes) => {
+      console.log(dbRes);
+      res.status(200).json(dbRes);
     });
   });
 
-  // Search for Jobs
+  app.put('/api/account/school', (req, res) => {
+    console.log(req.body);
+    let user = req.body;
+    let where = { _id: user.id };
+    update = {
+      $push: {
+        userSchool: {
+          schoolName: user.schoolName,
+          schoolDegree: user.schoolDegree,
+          schoolYearFrom: user.schoolYearFrom,
+          schoolYearTo: user.schoolYearTo
+        }
+      }
+    };
+    db.user.findOneAndUpdate(where, update, (err, dbRes) => {
+      console.log(dbRes);
+      res.status(200).json(dbRes);
+    });
+  });
+
+  app.put('/api/account/job', (req, res) => {
+    console.log(req.body);
+    let user = req.body;
+    let where = { _id: user.id };
+    update = {
+      $push: {
+        userWork: {
+          jobTitle: user.jobTitle,
+          jobCompany: user.jobCompany,
+          jobDate: user.jobDate,
+          jobSummary: user.jobSummary
+        }
+      }
+    };
+    db.user.findOneAndUpdate(where, update, (err, dbRes) => {
+      console.log(dbRes);
+      res.status(200).json(dbRes);
+    });
+  });
+
+  app.put('/api/account/projects', (req, res) => {
+    console.log(req.body);
+    let user = req.body;
+    let where = { _id: user.id };
+    update = {
+      $push: {
+        userProjects: {
+          projectName: user.projectName,
+          projectURL: user.projectURL,
+          projectDesc: user.projectDesc
+        }
+      }
+    };
+    db.user.findOneAndUpdate(where, update, (err, dbRes) => {
+      console.log(dbRes);
+      res.status(200).json(dbRes);
+    });
+  });
+
+  // ******************* Delete user Data ************************
+
+  app.delete('/api/account/delete', (req, res) => {
+    console.log('req: ');
+    console.log(req.body);
+
+    db.user.findOneAndUpdate(
+      { _id: req.body._id },
+      { $pull: { [req.body.data]: { _id: req.body.itemID } } },
+      (err, dbRes) => {
+        console.log(err);
+        console.log(dbRes);
+        res.status(200).json(dbRes);
+      }
+    );
+  });
+
+  // ****************** Search for Jobs **************************
   app.get('/api/:search/:location/:skill?', (req, res) => {
     if (!req.params.search || !req.params.location || req.params.hours) {
       res.status(400).json({ err: 'Incorrect search' });
@@ -88,7 +170,6 @@ module.exports = app => {
 
     console.log(url);
 
-    // *********************************** Testing API function ****************************************
     axios.get(url).then(response => {
       let jobs = response.data;
       let skillSearch = decodeURI(req.params.skill).split('~');

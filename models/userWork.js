@@ -8,23 +8,19 @@ var Schema = mongoose.Schema;
 var UserWorkSchema = new Schema({
   jobTitle: {
     type: String,
-    required: false,
-    default: 'Full Stack Developer'
+    required: false
   },
   jobCompany: {
     type: String,
-    required: false,
-    default: 'Google'
+    required: false
   },
   jobDate: {
     type: String,
-    required: false,
-    default: '1900 - 2052'
+    required: false
   },
   jobSummary: {
     type: String,
-    required: false,
-    default: 'Handled full stack web development for Google. Worked backend and frontend.'
+    required: false
   }
 });
 
